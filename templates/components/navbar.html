@@ -1,15 +1,15 @@
 {% load static %}
 <div class="d-flex flex-column flex-md-row align-items-center justify-content-between pb-3 mb-4">
-    <a href="" class="link-dark text-decoration-none text-center">
+    <a href="{% url 'index' %}" class="link-dark text-decoration-none text-center">
         <img src="https://via.placeholder.com/200" alt="" width="100">
         <h2>Conto Gelado</h2>
     </a>
 
     <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
 
-        <a class="me-3 py-2 link-dark text-decoration-none" href="#">Inicio</a>
+        <a class="me-3 py-2 link-dark text-decoration-none" href="{% url 'index' %}">Home</a>
         <a class="me-3 py-2 link-dark text-decoration-none" href="#">Contato</a>
-        <a class="me-3 py-2 link-dark text-decoration-none" href="#">Cardápio</a>
+        <a class="me-3 py-2 link-dark text-decoration-none" href="{% url 'menu' %}">Menu</a>
 
         {% if request.user.is_authenticated %}
         <a class="me-3 py-2 link-dark text-decoration-none" href="#">Meus Pedidos</a>
