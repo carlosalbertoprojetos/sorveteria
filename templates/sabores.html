@@ -45,6 +45,27 @@
                 </div>
                 {% endfor %}
                 {% endfor %}
+
+                <!-- Coberturas -->
+                <div class="d-flex justify-content-between bg-light border-3 p-3">
+                    <span class="fs-4 fw-bold">Coberturas</span>
+                </div>
+                {% for c in coberturas %}
+                <div class="d-flex align-items-center p-3 border">
+                    <div class="p-2 flex-grow-1 text-start">
+                        <img src="https://down-br.img.susercontent.com/file/179eac30b9e3dd59fb5e8b02fc108c21" class=""
+                            width="80" alt="...">
+                        <span class="fw-bold">{{c.nome}}</span>
+                    </div>
+                    <div class="qty">
+                        <span class="minus bg-dark">-</span>
+                        <input type="number" class="selcobertura_{{emb.id}}" data-coberturaid="{{c.id}}"
+                            id="selcobertura_{{emb.id}}" name="selcobertura_{{emb.id}}" value="0" disabled>
+                        <span class="plus bg-dark">+</span>
+                    </div>
+                </div>
+                {% endfor %}
+
             </div>
             <div class="modal-footer">
                 <div class="qty">
@@ -53,7 +74,7 @@
                         value="1" disabled>
                     <span class="plus item_plus bg-dark">+</span>
                 </div>
-                <button type="button" class="btn btn-primary btn-lg">Adicionar</button>
+                <button type="button" class="btn btn-primary btn-sm">Adicionar</button>
             </div>
         </div>
     </div>

@@ -94,6 +94,35 @@
                 atualizarTotalSelecionado(modalId);
             });
         });
+
+        // Coberturas/Adicionais 
+        $(document).on('click', '.plus', function () {
+            var modalId = $(this).closest('.modal').data('modalid');
+            var input = $(this).siblings('input.selcobertura_' + modalId);
+            input.val(parseInt(input.val()) + 1);
+        });
+
+        $(document).on('click', '.minus', function () {
+            var modalId = $(this).closest('.modal').data('modalid');
+            var input = $(this).siblings('input.selcobertura_' + modalId);
+            input.val(parseInt(input.val()) - 1);
+            if (input.val() < 0) {
+                input.val(0);
+            }
+        });
+
+
+        // Quantidade de itens
+        $(document).on('click', '.item_plus, .item_minus', function () {
+            var modalId = $(this).closest('.modal').data('modalid');
+            var inputQtdPote = $(this).siblings('input.qtdPote_' + modalId);
+
+            var increment = $(this).hasClass('item_plus') ? 1 : -1;
+
+            var newValue = parseInt(inputQtdPote.val()) + increment;
+            inputQtdPote.val(Math.max(newValue, 1));
+        });
+
     });
 </script>
 
