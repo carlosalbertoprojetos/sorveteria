@@ -37,44 +37,62 @@
     $(document).ready(function () {
         $('.count').prop('disabled', true);
 
-        function atualizarTotalSelecionado() {
+        function atualizarTotalSelecionado(modalId) {
             var totalSelecionado = 0;
-            $('.count').each(function () {
+            $('.count_' + modalId).each(function () {
                 totalSelecionado += parseInt($(this).val());
             });
-            $('#resultselsabor').text(totalSelecionado);
+            $('#resultselsabor_' + modalId).text(totalSelecionado);
+        }
+
+        // altera a cor do botão quando o total de bolas de sorvete por pote for atingido
+        function atualizarColorDanger(modalId) {
+            $('#impResponse' + modalId).removeClass('bg-success');
+            $('#impResponse' + modalId).addClass('bg-secundary');
+        }
+        function atualizarColorSuccess(modalId) {
+            $('#impResponse' + modalId).removeClass('bg-secundary');
+            $('#impResponse' + modalId).addClass('bg-success');
         }
 
         $(document).on('click', '.plus', function () {
-            var input = $(this).siblings('input.count');
-            var saborId = input.data('saborid');
-            var input_max = $(this).parent().find('input.selsabor');
-            var capacidadeMaxima = input_max.data('capmax');
+            var modalId = $(this).closest('.modal').data('modalid');
+            var input = $(this).siblings('input.count_' + modalId);
+            var capacidadeMaxima = $('#selsabor_' + modalId).data('capmax')
             var totalSelecionado = 0;
 
             // Calcular o total selecionado para todos os sabores
-            $('.count').each(function () {
+            $('.count_' + modalId).each(function () {
                 totalSelecionado += parseInt($(this).val());
             });
 
-            if ((totalSelecionado + 1) <= capacidadeMaxima) {
+            if ((totalSelecionado + 1) <= (capacidadeMaxima)) {
                 input.val(parseInt(input.val()) + 1);
+                atualizarColorDanger(modalId)
+
+                if ((totalSelecionado + 1) == capacidadeMaxima) {
+                    atualizarColorSuccess(modalId)
+                }
+            } else {
+                // Excedeu a capacidade máxima  
+                atualizarColorSuccess(modalId)
             }
 
             // Atualizar o totalSelecionado após a adição
-            atualizarTotalSelecionado();
-        });
+            atualizarTotalSelecionado(modalId);
 
-        $(document).on('click', '.minus', function () {
-            var input = $(this).siblings('input.count');
-            var saborId = input.data('saborid');
-            input.val(parseInt(input.val()) - 1);
-            if (input.val() < 0) {
-                input.val(0);
-            }
+            $(document).on('click', '.minus', function () {
+                var modalId = $(this).closest('.modal').data('modalid');
+                var input = $(this).siblings('input.count_' + modalId);
+                input.val(parseInt(input.val()) - 1);
+                if (input.val() < 0) {
+                    input.val(0);
+                }
+                atualizarColorDanger(modalId)
 
-            // Atualizar o totalSelecionado após a subtração
-            atualizarTotalSelecionado();
+                // Atualizar o totalSelecionado após a subtração
+                atualizarTotalSelecionado(modalId);
+            });
         });
     });
 </script>
