@@ -11,34 +11,13 @@
             <span class="text-primary">Meus Itens</span>
             <span class="badge bg-primary rounded-pill">{{ total_itens }}</span>
         </h4>
-        <ul class="list-group mb-3">
-            <!-- Lista de Itens do Carrinho -->
-            {% for item in sacola_itens.potes.all %}
-            <li class="list-group-item d-flex align-items-center justify-content-between lh-sm pote-item"
-                data-poteid="{{ item.id }}">
-                <div class="text-start list-item">
-                    <h6 class="my-0 text-primary fw-bold">Pote {{ item.embalagem.tipo }} - R$ {{ item.preco_total }}
-                    </h6>
-                    <p class="my-0">Sabor(es): {{ item.obter_descricao_sabores }}</p>
-                    <p class="my-0">Cobertura(s): {{ item.obter_descricao_coberturas|default:"Não selecionada" }}</p>
-                </div>
-                <div class="qty">
-                    <span class="minus sacola_minus bg-primary">-</span>
-                    <input type="number" class="dsb countCartItem_{{ item.id }}" id="countCartItem_{{ item.id }}"
-                        name="countCartItem_{{ item.id }}" value="{{ item.quantidade }}" disabled>
-                    <span class="plus sacola_plus bg-primary">+</span>
-                </div>
-                <div class="div">
-                    <a href="#" class="link-danger remove-item"> <i class="fas fa-trash"></i></a>
-                </div>
-            </li>
-            {% endfor %}
-            <li class="list-group-item d-flex align-items-center 
-            justify-content-between p-3 text-success">
-                <span>Total (R$)</span>
-                <h4><strong id="atualizaValor">R$ {{ sacola_itens.preco }}</strong></h4>
-            </li>
-        </ul>
-        <button type="button" class="btn btn-success">Finalizar pedido</button>
+
+        {% include 'components/lista-itens.html' %}
+
+        <button type="button" class="btn btn-success btn-lg">
+            <a href="{% if total_itens > 0 %}{% url 'checkout_pedido' %}{% endif %}"
+                class="link-light text-decoration-none">
+                Finalizar Pedido</a>
+        </button>
     </div>
 </div>

@@ -189,8 +189,17 @@ class Pedido(models.Model):
     )
     status = models.BooleanField(default=False)
     pago = models.BooleanField(default=False)
-    # Endereço
-    # Pagamento com Card / Dinheiro / Pix
+    entrega = models.BooleanField(default=False)
+    endereco = models.TextField(null=True)
+
+    class Pagamento(models.TextChoices):
+        CARTAO = "CARTAO", "Cartão"
+        PIX = "PIX", "Pix"
+        DINHEIRO = "DINHEIRO", "Dinheiro"
+        BOLETO = "BOLETO", "Boleto"
+        CHEQUE = "CHEQUE", "Cheque"
+
+    pagamento = models.CharField(max_length=100, choices=Pagamento.choices, null=True)
 
     def __str__(self):
         return f"Pedido: {self.id} / {self.user} / (PAGO: {self.pago})"

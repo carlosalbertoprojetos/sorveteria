@@ -11,4 +11,5 @@ urlpatterns = [
         name="atualiza_quantidade_sacola",
     ),
     path("remove_item_sacola/", views.remove_item_sacola, name="remove_item_sacola"),
+    path("checkout-pedido/", views.checkout_pedido, name="checkout_pedido"),
 ]

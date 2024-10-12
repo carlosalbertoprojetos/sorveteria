@@ -1,5 +1,8 @@
 import json
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib import messages
+
+from myapp.forms import PedidoUpdateForm
 from .models import (
     Embalagem,
     MontaPote,
@@ -141,3 +144,21 @@ def remove_item_sacola(request):
         return JsonResponse(
             {"status": "error", "message": "Método não permitido"}, status=405
         )
+
+
+@login_required(login_url="/admin/login/")
+def checkout_pedido(request):
+    pedido = Pedido.objects.filter(user=request.user, status=True).first()
+
+    if request.method == "POST":
+        form = PedidoUpdateForm(request.POST, instance=pedido)
+        if form.is_valid():
+            pedido = form.save(commit=False)
+            pedido.status = False
+            pedido.save()
+            messages.success(request, "Pedido atualizado com sucesso!")
+            return redirect("menu")
+    else:
+        form = PedidoUpdateForm(instance=pedido)
+
+    return render(request, "pedido.html", {"form": form, "pedido": pedido})
