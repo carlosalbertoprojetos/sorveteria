@@ -119,6 +119,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 # Apps
                 "core.context_processors.context_social",
+                "core.context_processors.context_sacola",
             ],
         },
     },
@@ -189,9 +190,7 @@ STATIC_DIR = os.path.join(BASE_DIR, "static")
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static")
 STATIC_URL = "/static/"
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "myapp/static"),
-]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "myapp/static")]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
@@ -209,10 +208,10 @@ EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS")
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
-LOGIN_URL = "login"
+LOGIN_URL = "/"
+LOGOUT_URL = "/"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
-
 
 # --- Messages --- #
 from django.contrib.messages import constants

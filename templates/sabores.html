@@ -36,11 +36,11 @@
                         <span class="fw-bold">{{s.nome}}</span>
                     </div>
                     <div class="qty">
-                        <span class="minus bg-dark">-</span>
+                        <span class="minus bg-primary">-</span>
                         <input type="hidden" class="selsabor" id="selsabor_{{emb.id}}" data-modalid="{{emb.id}}"
                             data-capmax="{{emb.capacidade_maxima_bolas}}">
-                        <input type="number" class="count_{{emb.id}}" data-saborid="{{s.id}}" name="qty" value="0">
-                        <span class="plus bg-dark">+</span>
+                        <input type="number" class="dsb count_{{emb.id}}" data-saborid="{{s.id}}" name="qty" value="0">
+                        <span class="plus bg-primary">+</span>
                     </div>
                 </div>
                 {% endfor %}
@@ -58,10 +58,10 @@
                         <span class="fw-bold">{{c.nome}}</span>
                     </div>
                     <div class="qty">
-                        <span class="minus bg-dark">-</span>
-                        <input type="number" class="selcobertura_{{emb.id}}" data-coberturaid="{{c.id}}"
+                        <span class="minus bg-primary">-</span>
+                        <input type="number" class="dsb selcobertura_{{emb.id}}" data-coberturaid="{{c.id}}"
                             id="selcobertura_{{emb.id}}" name="selcobertura_{{emb.id}}" value="0" disabled>
-                        <span class="plus bg-dark">+</span>
+                        <span class="plus bg-primary">+</span>
                     </div>
                 </div>
                 {% endfor %}
@@ -74,7 +74,13 @@
                         value="1" disabled>
                     <span class="plus item_plus bg-dark">+</span>
                 </div>
-                <button type="button" class="btn btn-primary btn-sm">Adicionar</button>
+
+                {% if request.user.is_authenticated %}
+                <button type="button" class="btn btn-primary btn-sm btnEnviarSacola">
+                    Adicionar</button>
+                {% else %}
+                <a href="/admin/login" class="btn btn-success btn-sm">Faça o Login</a>
+                {% endif %}
             </div>
         </div>
     </div>

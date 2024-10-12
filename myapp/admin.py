@@ -6,6 +6,7 @@ admin.site.register(models.Embalagem)
 admin.site.register(models.TipoSabor)
 admin.site.register(models.Sabor)
 admin.site.register(models.Cobertura)
+
 # admin.site.register(models.SelSabor)
 # admin.site.register(models.MontaPote)
 # admin.site.register(models.SacolaItens)
@@ -13,6 +14,11 @@ admin.site.register(models.Cobertura)
 
 
 # Monta Pote
+class SelCoberturaInline(admin.TabularInline):
+    model = models.SelCobertura
+    extra = 0
+
+
 class SelSaborInline(admin.TabularInline):
     model = models.SelSabor
     extra = 0
@@ -20,7 +26,7 @@ class SelSaborInline(admin.TabularInline):
 
 @admin.register(models.MontaPote)
 class MontaPoteAdmin(admin.ModelAdmin):
-    inlines = [SelSaborInline]
+    inlines = [SelSaborInline, SelCoberturaInline]
 
 
 # Sacola de Itens
@@ -37,5 +43,5 @@ class PedidoInline(admin.StackedInline):
 @admin.register(models.SacolaItens)
 class SacolaItensAdmin(admin.ModelAdmin):
     fields = ("preco",)
-    readonly_fields = ("preco",)  # Adicione o campo readonly para mostrar o preço total
+    readonly_fields = ("preco",)
     inlines = [PedidoInline, MontaPoteInline]

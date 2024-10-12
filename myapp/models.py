@@ -71,20 +71,47 @@ class MontaPote(models.Model):
     embalagem = models.ForeignKey(
         Embalagem, related_name="embalagem", on_delete=models.CASCADE, null=True
     )
-    coberturas = models.ManyToManyField(Cobertura)
+    # coberturas = models.ManyToManyField(Cobertura)
     quantidade = models.PositiveIntegerField(null=True)
 
     def preco_total(self):
         preco_embalagem = self.embalagem.preco if self.embalagem else 0
-        preco_coberturas = sum(cobertura.preco for cobertura in self.coberturas.all())
         preco_sabores = 0
+        preco_coberturas = 0
+
+        # sabores
         for selsabor in self.pote.all():
             preco_sabor = selsabor.sabor.tipo.preco
             quantidade_bolas = selsabor.quantidade_bolas
             preco_sabores += preco_sabor * quantidade_bolas
-        total_pote = preco_embalagem + preco_coberturas + preco_sabor
+
+        # coberturas
+        for selcobertura in self.pote_cobertura.all():
+            preco_cobertura = selcobertura.cobertura.preco
+            quantidade_cobertura = selcobertura.quantidade_cobertura
+            preco_coberturas += preco_cobertura * quantidade_cobertura
+
+        total_pote = preco_embalagem + preco_coberturas + preco_sabores
         total = total_pote * self.quantidade
         return total
+
+    def obter_descricao_sabores(self):
+        descricao_sabores = []
+        for sel_sabor in self.pote.all():
+            quantidade_sabor = sel_sabor.quantidade_bolas
+            descricao_sabor = f"{quantidade_sabor}x {sel_sabor.sabor.nome}"
+            descricao_sabores.append(descricao_sabor)
+        return ";".join(descricao_sabores)
+
+    def obter_descricao_coberturas(self):
+        descricao_coberturas = []
+        for sel_cobertura in self.pote_cobertura.all():
+            quantidade_cobertura = sel_cobertura.quantidade_cobertura
+            descricao_cobertura = (
+                f"{quantidade_cobertura}x {sel_cobertura.cobertura.nome}"
+            )
+            descricao_coberturas.append(descricao_cobertura)
+        return ";".join(descricao_coberturas)
 
     def __str__(self):
         return f"ID: {self.id} / POTE: {self.embalagem.tipo} / Qtd: {self.quantidade} / R$ {self.preco_total()}"
@@ -111,14 +138,31 @@ class SelSabor(models.Model):
         verbose_name_plural = "Selecinar Sabor"
 
 
+class SelCobertura(models.Model):
+    pote = models.ForeignKey(
+        MontaPote, related_name="pote_cobertura", on_delete=models.CASCADE, null=True
+    )
+    cobertura = models.ForeignKey(
+        Cobertura, related_name="cobertura", on_delete=models.CASCADE, null=True
+    )
+    quantidade_cobertura = models.PositiveIntegerField()
+
+    def __str__(self):
+        return (
+            f"Cobertura: {self.cobertura.nome}, Quantidade: {self.quantidade_cobertura}"
+        )
+
+    # class Meta:
+    #     verbose_name = "B - SelCobertura"
+    #     verbose_name_plural = "B - SelCobertura"
+
+
 class SacolaItens(models.Model):
     potes = models.ManyToManyField(MontaPote)
-    preco = models.DecimalField(
-        max_digits=10, decimal_places=2, null=True
-    )  # Armazena o valor como um número decimal
+    preco = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
     def preco_formatado(self):
-        return f"R$ {self.preco:.2f}"  # Formata o valor com 2 casas decimais
+        return f"R$ {self.preco:.2f}"
 
     # calcula a soma dos preços de todos os produtos da sacola
     def preco_total(self):
@@ -143,8 +187,8 @@ class Pedido(models.Model):
     itens_da_sacola = models.OneToOneField(
         SacolaItens, on_delete=models.CASCADE, null=True
     )
-    status = models.BooleanField()
-    pago = models.BooleanField()
+    status = models.BooleanField(default=False)
+    pago = models.BooleanField(default=False)
     # Endereço
     # Pagamento com Card / Dinheiro / Pix
 
