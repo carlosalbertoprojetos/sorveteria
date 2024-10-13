@@ -1,0 +1,95 @@
+Date: 13/10/2024
+Time: 10:17
+Phone Number: +5531986766866
+Message: Data do Pedido: 13/10/2024 Status do Pedido: ✅ Status do Pagamento: ❌ Status da Entrega: ❌ Detalhes do Pedido: aqui Tempo estimado de entrega: 60min
+--------------------
+Date: 13/10/2024
+Time: 10:18
+Phone Number: +5531986766866
+Message: Data do Pedido: 13/10/2024 Status do Pedido: ❌ Status do Pagamento: ❌ Status da Entrega: ❌ Detalhes do Pedido: aqui Tempo estimado de entrega: 60min
+--------------------
+Date: 13/10/2024
+Time: 10:18
+Phone Number: +5531986766866
+Message: Data do Pedido: 13/10/2024 Status do Pedido: ❌ Status do Pagamento: ❌ Status da Entrega: ❌ Detalhes do Pedido: aqui Tempo estimado de entrega: 60min
+--------------------
+Date: 13/10/2024
+Time: 10:20
+Phone Number: +5531986766866
+Message: Data do Pedido: 13/10/2024 Status do Pedido: ✅ Status do Pagamento: ❌ Status da Entrega: ❌ Detalhes do Pedido: aqui Tempo estimado de entrega: 60min
+--------------------
+Date: 13/10/2024
+Time: 10:20
+Phone Number: +5531986766866
+Message: Data do Pedido: 13/10/2024 Status do Pedido: ✅ Status do Pagamento: ❌ Status da Entrega: ❌ Detalhes do Pedido: aqui Tempo estimado de entrega: 60min
+--------------------
+Date: 13/10/2024
+Time: 10:30
+Phone Number: +5531986766866
+Message: Data do Pedido: 13/10/2024 Status do Pedido: ✅ Status do Pagamento: ❌ Status da Entrega: ❌ Detalhes do Pedido:Pote: 1x 400mlSabor: 2x Morango2x ChocolateValor Total: R$ 15.00 Tempo estimado de entrega: 60min
+--------------------
+Date: 13/10/2024
+Time: 10:33
+Phone Number: +5531986766866
+Message: Data do Pedido: 13/10/2024Status do Pedido: ✅Status do Pagamento: ❌Status da Entrega: ❌Detalhes do Pedido: Pote: 1 x 400mlSabor: 2 x Morango2 x ChocolateValor Total: R$ 15.00Tempo estimado de entrega: 60min
+--------------------
+Date: 13/10/2024
+Time: 10:35
+Phone Number: +5531986766866
+Message: Data do Pedido: 13/10/2024Status do Pedido: ✅Status do Pagamento: ❌Status da Entrega: ❌Detalhes do Pedido:Pote: 1 x 400mlSabor(es): 2 x Morango2 x ChocolateValor Total: R$ 15.00Tempo estimado de entrega: 60min
+--------------------
+Date: 13/10/2024
+Time: 10:38
+Phone Number: +5531986766866
+Message: Data do Pedido: 13/10/2024Status do Pedido: ❌Status do Pagamento: ✅Status da Entrega: ❌Detalhes do Pedido:Pote: 1 x 400mlSabor(es): 2 x Morango2 x ChocolatePote: 1 x 1LSabor(es): 2 x Ninho2 x Ninho Trufado2 x MaracujáAdicionais:- 1x Morango- 1x Chocolate- 2x Caramelo- 1x NozesValor Total: R$ 47.50Tempo estimado de entrega: 60min
+--------------------
+Date: 13/10/2024
+Time: 10:42
+Phone Number: +5531986766866
+Message: Data do Pedido: 13/10/2024 13:17:08Status do Pedido: ✅Status do Pagamento: ❌Status da Entrega: ❌Detalhes do Pedido:Pote: 1 x 400mlSabor(es): 2 x Morango2 x ChocolatePote: 1 x 1LSabor(es): 2 x Ninho2 x Ninho Trufado2 x MaracujáAdicionais:- 1x Morango- 1x Chocolate- 2x Caramelo- 1x NozesValor Total: R$ 47.50Tempo estimado de entrega: 60min
+--------------------
+Date: 13/10/2024
+Time: 10:44
+Phone Number: +5531986766866
+Message: Data do Pedido: 13/10/2024 13:17:08Status do Pedido: ✅Status do Pagamento: ❌Status da Entrega: ❌Detalhes do Pedido:Pote: 1 x 400mlSabor(es): 2 x Morango2 x ChocolatePote: 1 x 1LSabor(es): 2 x Ninho2 x Ninho Trufado2 x MaracujáAdicionais:- 1x Morango- 1x Chocolate- 2x Caramelo- 1x NozesValor Total: R$ 47.50Tempo estimado de entrega: 60min
+--------------------
+Date: 13/10/2024
+Time: 10:48
+Phone Number: +5531986766866
+Message: Data do Pedido: 13/10/2024 13:17:08Status do Pedido: ✅Status do Pagamento: ❌Status da Entrega: ❌Detalhes do Pedido:Pote: - 1 x 400mlSabor(es): - 2 x Morango- 2 x ChocolatePote: - 1 x 1LSabor(es): - 2 x Ninho- 2 x Ninho Trufado- 2 x MaracujáAdicionais:- 1x Morango- 1x Chocolate- 2x Caramelo- 1x NozesValor Total: R$ 47.50Tempo estimado de entrega: 60min
+--------------------
+Date: 13/10/2024
+Time: 10:49
+Phone Number: +5531986766866
+Message: Data do Pedido: 13/10/2024 13:17:08Status do Pedido: ✅Status do Pagamento: ❌Status da Entrega: ❌Detalhes do Pedido:Pote: - 1 x 400mlSabor(es): - 2 x Morango- 2 x ChocolatePote: - 1 x 1LSabor(es): - 2 x Ninho- 2 x Ninho Trufado- 2 x MaracujáAdicionais:- 1x Morango- 1x Chocolate- 2x Caramelo- 1x NozesValor Total: R$ 47.50Tempo estimado de entrega: 60min
+--------------------
+Date: 13/10/2024
+Time: 10:50
+Phone Number: +5531986766866
+Message: Data do Pedido: 13/10/2024 13:17:08Status do Pedido: ✅Status do Pagamento: ❌Status da Entrega: ❌Detalhes do Pedido:Pote: - 1 x 400mlSabor(es): - 2 x Morango- 2 x ChocolatePote: - 1 x 1LSabor(es): - 2 x Ninho- 2 x Ninho Trufado- 2 x MaracujáAdicionais:- 1x Morango- 1x Chocolate- 2x Caramelo- 1x NozesValor Total: R$ 47.50Tempo estimado de entrega: 60min
+--------------------
+Date: 13/10/2024
+Time: 10:52
+Phone Number: +5531986766866
+Message: Data do Pedido: 13/10/2024 13:17:08Status do Pedido: ✅Status do Pagamento: ❌Status da Entrega: ❌Detalhes do Pedido:Pote: 1 x 400mlSabor(es): - 2 x Morango- 2 x ChocolatePote: 1 x 1LSabor(es): - 2 x Ninho- 2 x Ninho Trufado- 2 x MaracujáAdicionais:- 1x Morango- 1x Chocolate- 2x Caramelo- 1x NozesValor Total: R$ 47.50Tempo estimado de entrega: 60min
+--------------------
+Date: 13/10/2024
+Time: 10:53
+Phone Number: +5531986766866
+Message: Data do Pedido: 13/10/2024 13:17:08Status do Pedido: ✅Status do Pagamento: ❌Status da Entrega: ❌Detalhes do Pedido:Pote: 1 x 400mlSabor(es): - 2 x Morango- 2 x ChocolatePote: 1 x 1LSabor(es): - 2 x Ninho- 2 x Ninho Trufado- 2 x MaracujáAdicionais:- 1x Morango- 1x Chocolate- 2x Caramelo- 1x NozesValor Total: R$ 47.50Tempo estimado de entrega: 60min
+--------------------
+Date: 13/10/2024
+Time: 10:54
+Phone Number: +5531986766866
+Message: Data do Pedido: 13/10/2024 13:17:08Status do Pedido: ✅Status do Pagamento: ❌Status da Entrega: ❌Detalhes do Pedido:Pote: 1 x 400mlSabor(es): - 2 x Morango- 2 x ChocolatePote: 1 x 1LSabor(es): - 2 x Ninho- 2 x Ninho Trufado- 2 x MaracujáAdicionais:- 1x Morango- 1x Chocolate- 2x Caramelo- 1x NozesValor Total: R$ 47.50Tempo estimado de entrega: 60min
+--------------------
+Date: 13/10/2024
+Time: 10:55
+Phone Number: +5531986766866
+Message: Data do Pedido: 13/10/2024 13:17:08Status do Pedido: ✅Status do Pagamento: ❌Status da Entrega: ❌Detalhes do Pedido:Pote: 1 x 400mlSabor(es): - 2 x Morango- 2 x ChocolatePote: 1 x 1LSabor(es): - 2 x Ninho- 2 x Ninho Trufado- 2 x MaracujáAdicionais:- 1x Morango- 1x Chocolate- 2x Caramelo- 1x NozesValor Total: R$ 47.50Tempo estimado de entrega: 60min
+--------------------
+Date: 13/10/2024
+Time: 10:56
+Phone Number: +5531986766866
+Message: Data do Pedido: 13/10/2024 13:17:08Status do Pedido: ✅Status do Pagamento: ❌Status da Entrega: ❌Detalhes do Pedido:Pote: 1 x 400mlSabor(es): - 2 x Morango- 2 x ChocolatePote: 1 x 1LSabor(es): - 2 x Ninho- 2 x Ninho Trufado- 2 x MaracujáAdicionais:- 1x Morango- 1x Chocolate- 2x Caramelo- 1x NozesValor Total: R$ 47.50Tempo estimado de entrega: 60min
+--------------------

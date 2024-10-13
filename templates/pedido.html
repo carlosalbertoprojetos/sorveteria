@@ -6,8 +6,8 @@
 
 <h2 class="pb-2 border-bottom">Meu Pedido: <span class="text-success fs-bold">N° {{ pedido.id }}</span></h2>
 
-<p>Revise seu pedido. </p>
-<p>Ao finalizar enviaremos a confirmação do pagamento via whatsapp.</p>
+<p>Confirmar pedido </p>
+<p>Ao finalizar enviaremos a confirmação do envio para whatsapp do telefone cadastrado</p>
 
 <div class="row">
     <h4 for="">Itens do Pedido</h4>
@@ -16,7 +16,6 @@
         {% include 'components/lista-itens.html' %}
 
     </div>
-
     <form class="col-6 p-2 flex-fill" method="post"
         action="{% if total_itens > 0 %}{% url 'checkout_pedido' %}{% endif %}">
         {% csrf_token %}

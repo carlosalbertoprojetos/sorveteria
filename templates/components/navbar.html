@@ -9,28 +9,23 @@
     <div class="row-column align-content-center">
         <nav class="py-2">
             <div class="container d-flex gap-2 flex-wrap justify-content-evenly">
-                <a class="btn btn-primary btn-sm align-content-center my-2" href="{% url 'index' %}">Home</a>
+                <a class="btn btn-primary btn-sm align-content-center my-2 {% if request.path == '/' %}active{% endif %}"
+                    href="{% url 'index' %}">Home</a>
                 <a class="btn btn-primary btn-sm align-content-center my-2" href="#">Contato</a>
-                <a class="btn btn-primary btn-sm align-content-center my-2" href="{% url 'menu' %}">Menu</a>
+                <a class="btn btn-primary btn-sm align-content-center my-2 {% if request.path == '/menu/' %}active{% endif %}"
+                    href="{% url 'menu' %}">Menu</a>
+                {% if request.user.is_superuser %}
+                <a class="btn btn-primary btn-sm align-content-center my-2 {% if request.path == '/gerencia-pedidos/' %}active{% endif %}"
+                    href="{% url 'todos_pedidos' %}">
+                    Gerencia Pedidos</a>
+                {% endif %}
                 {% if request.user.is_authenticated %}
-
                 {% include 'sacola.html' %}
+                {% if not request.user.is_superuser %}
                 <!-- Meus Pedidos -->
-                <a class="btn btn-primary btn-sm align-content-center my-2" href="{% url 'meus_pedidos' %}">Pedidos</a>
-                <!-- <div class="link-dark dropdown align-content-center">
-                        <a class="nav-link link-dark dropdown-toggle {% if request.path == '/meus-pedidos/' %}active{% endif %}"
-                            data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                            <i class="fas fa-user"></i> {{request.user.first_name}} {{request.user.last_name}}</a>
-                        <ul class="dropdown-menu show p-0 mt-2">
-                            <li class="pt-1"><a href="{% url 'meus_pedidos' %}"
-                                    class="dropdown-item rounded-2 {% if request.path == '/meus-pedidos/' %}active{% endif %}">Meus
-                                    Pedidos</a></li>
-                            <li>
-                                <hr class="dropdown-divider my-1">
-                            </li>
-                            <li class="pb-1"><a class="dropdown-item rounded-2" href="/admin/logout">Sair</a></li>
-                        </ul>
-                    </div> -->
+                <a class="btn btn-primary btn-sm align-content-center my-2 {% if request.path == '/meus-pedidos/' %}active{% endif %}"
+                    href="{% url 'meus_pedidos' %}">Pedidos</a>
+                {% endif%}
                 <!-- Carrinho -->
                 <div class="me-3">
                     <button class="col-2 btn btn-transparent position-relative p-0 mt-2 me-2" type="button"

@@ -9,7 +9,7 @@
     <p>Lista de Pedidos ativos que estão processando</p>
     <div class="d-flex gap-1 justify-content-center align-content-center flex-wrap">
         {% for mp in meus_pedidos %}
-        {% if not mp.entrega%}
+        {% if not mp.entrega %}
         <div class="p-3 bg-warning rounded-5">
             <h4>Data do Pedido: {{ mp.data_pedido|date:"d/m/Y" }}</h4>
             <p>Status do Pedido: {% if mp.status %}<i class="fas fa-check-circle link-success"></i>{% else %}<i
@@ -58,5 +58,28 @@
 {% endblock %}
 
 {% block scripts %}
+
+<script>
+    $(document).ready(function () {
+        $('.whatsapp-btn').click(function () {
+            var id = $(this).data('id');
+            $.ajax({
+                url: "{% url 'enviar_whatsapp_pedido' %}",
+                type: 'POST',
+                data: {
+                    'pedido_id': id,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (data) {
+                    console.log(data)
+                },
+                error: function (error) {
+                    console.log(error);
+                    alert('Erro ao atualizar o pedido.');
+                }
+            });
+        });
+    });
+</script>
 
 {% endblock %}

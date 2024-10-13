@@ -1,6 +1,7 @@
 import json
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
+import pywhatkit as kit
 
 from myapp.forms import PedidoUpdateForm
 from .models import (
@@ -171,3 +172,88 @@ def checkout_pedido(request):
 def meus_pedidos(request):
     meus_pedidos = Pedido.objects.filter(user=request.user)
     return render(request, "meus-pedidos.html", {"meus_pedidos": meus_pedidos})
+
+
+# lista pedidos geral
+@login_required(login_url="/admin/login/")
+def todos_pedidos(request):
+    if request.user.is_superuser:
+        todos_pedidos = Pedido.objects.all()
+    else:
+        todos_pedidos = Pedido.objects.filter(user=request.user)
+        # return redirect("menu")
+    return render(request, "gerencia-pedidos.html", {"todos_pedidos": todos_pedidos})
+
+
+# atualizar o pedido
+@login_required(login_url="/admin/login/")
+def atualizar_pedido(request):
+    dados_str = request.POST.get("dados", None)
+    dados = json.loads(dados_str)
+
+    pedido_id = dados.get("id", None)
+    status = dados.get("status", None)
+    pago = dados.get("pago", None)
+    entrega = dados.get("entrega", None)
+
+    print(pedido_id, status, pago, entrega)
+    try:
+        pedido = Pedido.objects.get(pk=pedido_id)
+        pedido.status = status
+        pedido.pago = pago
+        pedido.entrega = entrega
+        pedido.save()
+        return JsonResponse({"success": True})
+    except Pedido.DoesNotExist:
+        return JsonResponse({"success": False, "error": "Pedido não encontrado"})
+    except Exception as e:
+        return JsonResponse({"success": False, "error": str(e)})
+
+
+# enviar mensagem whatsapp
+def enviar_whatsapp_pedido(request):
+    pedido_id = request.POST.get("pedido_id", None)
+
+    try:
+        pedido = Pedido.objects.get(pk=pedido_id)
+        # Número de telefone com código de país (por exemplo, +55 para BRA)
+        numero = "+5531986766866"
+
+        mensagem = f"""
+Data do Pedido: {pedido.data_pedido.strftime('%d/%m/%Y %H:%M:%S')}
+Status do Pedido: {'✅' if pedido.status else '❌'}
+Status do Pagamento: {'✅' if pedido.pago else '❌'}
+Status da Entrega: {'✅' if pedido.entrega else '❌'}
+
+Detalhes do Pedido:
+{format_message(pedido)}
+
+Tempo estimado de entrega: 60min\n
+        """
+
+        # Envie a mensagem
+        kit.sendwhatmsg_instantly(numero, mensagem)
+        return JsonResponse({"success": mensagem})
+    except Pedido.DoesNotExist:
+        return JsonResponse({"success": False, "error": "Pedido não encontrado"})
+    except Exception as e:
+        return JsonResponse({"success": False, "error": str(e)})
+
+
+def format_message(pedido):
+    detalhes = []
+    for pote in pedido.itens_da_sacola.potes.all():
+        detalhes.append(f"\nPote:  {pote.quantidade} x {pote.embalagem.tipo}\n")
+        sabores_str = "".join(
+            [
+                f"\n- {sel_sabor.quantidade_bolas} x {sel_sabor.sabor.nome}"
+                for sel_sabor in pote.pote.all()
+            ]
+        )
+        detalhes.append(f"Sabor(es):{sabores_str}\n")
+        descricao_coberturas = pote.obter_descricao_coberturas()
+        if descricao_coberturas:
+            detalhes.append("\nAdicionais:\n")
+            detalhes.extend(f"- {desc}\n" for desc in descricao_coberturas.split(";"))
+    detalhes.append(f"\nValor Total: R$ {pedido.itens_da_sacola.preco_total()}")
+    return "".join(detalhes)
