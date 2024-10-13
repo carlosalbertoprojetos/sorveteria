@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %} Menu {% endblock %}
 
 {% block content %}
@@ -11,26 +13,30 @@
     {% for emb in embalagens %}
     <div class="col">
         <a href="" class="link-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#sabores_{{emb.id}}">
-            <div class="card border-0" style="height: 250px; background-size: cover; 
+            {% if emb.tipo == 'Picolé' %}
+            <img src="{% static 'img/pote.png' %}" alt="pote" style="height: 250px;"">
+            {% else %}
+            <div class=" card border-0" style="height: 250px; background-size: cover; 
 			background-image: url('https://http2.mlstatic.com/D_NQ_NP_917685-MLB49794642888_042022-O.webp');">
-                <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                    <ul class="d-flex list-unstyled mt-auto text-dark">
-                        <li class="d-flex align-items-center me-3">
-                            <h1>{{emb.tipo}}</h1>
-                        </li>
-                        <li class="d-flex align-items-center">
-                            <svg class="bi me-2" width="1em" height="1em">
-                                <use xlink:href="#calendar3"></use>
-                            </svg>
-                            <h6>{{emb.capacidade_maxima_bolas}} Bolas</h6>
-                        </li>
-                    </ul>
-                </div>
+            {% endif %}
+            <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                <ul class="d-flex list-unstyled mt-auto text-dark">
+                    <li class="d-flex align-items-center me-3">
+                        <h1>{{ emb.tipo }}</h1>
+                    </li>
+                    <li class="d-flex align-items-center">
+                        <svg class="bi me-2" width="1em" height="1em">
+                            <use xlink:href="#calendar3"></use>
+                        </svg>
+                        <h6>{{ emb.capacidade_maxima_bolas }} Bolas</h6>
+                    </li>
+                </ul>
             </div>
-        </a>
     </div>
-    {% include 'sabores.html' %}
-    {% endfor %}
+    </a>
+</div>
+{% include 'sabores.html' %}
+{% endfor %}
 </div>
 
 {% endblock %}

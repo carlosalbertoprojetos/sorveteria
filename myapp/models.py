@@ -1,11 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
+from unidecode import unidecode
 
 
 # Tipo de Pote (1L - 1/5L - 2L - 400mL - 800mL )
-class Embalagem(models.Model):
+class Base(models.Model):
     tipo = models.CharField(max_length=50)
-    capacidade_maxima_bolas = models.PositiveIntegerField()
+    capacidade_maxima_bolas = models.PositiveIntegerField(default=1)
     ativo = models.BooleanField()
     preco = models.DecimalField(max_digits=10, decimal_places=2)
 
@@ -13,11 +14,17 @@ class Embalagem(models.Model):
         return f"R$ {self.preco:.2f}"
 
     def __str__(self):
-        return f"{self.tipo} | PREÇO: R$ {self.preco:.2f}"
+        nome_tratado = unidecode(self.tipo).lower().replace(" ", "")
+
+        if "picole" in nome_tratado:
+            retorno = f"{self.tipo}"
+        else:
+            retorno = f"{self.tipo} | PREÇO: R$ {self.preco:.2f}"
+        return retorno
 
     class Meta:
-        verbose_name = "1 - Embalagem"
-        verbose_name_plural = "1 - Embalagem"
+        verbose_name = "1 - Base"
+        verbose_name_plural = "1 - Base"
 
 
 class TipoSabor(models.Model):
@@ -44,7 +51,14 @@ class Sabor(models.Model):
     ativo = models.BooleanField()
 
     def __str__(self):
-        return f"{self.nome} | PREÇO: R$ {self.tipo.preco:.2f}"
+        nome_tratado = unidecode(self.tipo.tipo).lower().replace(" ", "")
+        if "picole" in nome_tratado:
+            retorno = f"{self.nome} - {self.tipo}"
+        else:
+            retorno = (
+                f"{self.nome} - {self.tipo.tipo} | PREÇO: R$ {self.tipo.preco:.2f}"
+            )
+        return retorno
 
     class Meta:
         verbose_name = "3 - Sabor"
@@ -68,14 +82,14 @@ class Cobertura(models.Model):
 
 
 class MontaPote(models.Model):
-    embalagem = models.ForeignKey(
-        Embalagem, related_name="embalagem", on_delete=models.CASCADE, null=True
+    base = models.ForeignKey(
+        Base, related_name="base", on_delete=models.CASCADE, null=True
     )
     # coberturas = models.ManyToManyField(Cobertura)
     quantidade = models.PositiveIntegerField(null=True)
 
     def preco_total(self):
-        preco_embalagem = self.embalagem.preco if self.embalagem else 0
+        preco_base = self.base.preco if self.base else 0
         preco_sabores = 0
         preco_coberturas = 0
 
@@ -91,7 +105,7 @@ class MontaPote(models.Model):
             quantidade_cobertura = selcobertura.quantidade_cobertura
             preco_coberturas += preco_cobertura * quantidade_cobertura
 
-        total_pote = preco_embalagem + preco_coberturas + preco_sabores
+        total_pote = preco_base + preco_coberturas + preco_sabores
         total = total_pote * self.quantidade
         return total
 
@@ -114,7 +128,7 @@ class MontaPote(models.Model):
         return ";".join(descricao_coberturas)
 
     def __str__(self):
-        return f"ID: {self.id} / POTE: {self.embalagem.tipo} / Qtd: {self.quantidade} / R$ {self.preco_total()}"
+        return f"ID: {self.id} / POTE: {self.base} / Qtd: {self.quantidade} / R$ {self.preco_total()}"
 
     class Meta:
         verbose_name = "A - MontaPote"

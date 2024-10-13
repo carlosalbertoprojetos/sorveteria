@@ -5,7 +5,7 @@ import pywhatkit as kit
 
 from myapp.forms import PedidoUpdateForm
 from .models import (
-    Embalagem,
+    # Embalagem,
     MontaPote,
     Pedido,
     SacolaItens,
@@ -24,11 +24,11 @@ def index(request):
 
 # lista os produtos do menu
 def menu(request):
-    embalagens = Embalagem.objects.filter(ativo=True)
+    # embalagens = Embalagem.objects.filter(ativo=True)
     tipo_sabor = TipoSabor.objects.filter(ativo=True)
     coberturas = Cobertura.objects.filter(ativo=True)
     context = {
-        "embalagens": embalagens,
+        # "embalagens": embalagens,
         "tipo_sabor": tipo_sabor,
         "coberturas": coberturas,
     }
@@ -170,7 +170,10 @@ def checkout_pedido(request):
 # lista os pedidos do usuário
 @login_required(login_url="/admin/login/")
 def meus_pedidos(request):
-    meus_pedidos = Pedido.objects.filter(user=request.user)
+    if request.user.is_staff:
+        meus_pedidos = Pedido.objects.all()
+    else:
+        meus_pedidos = Pedido.objects.filter(user=request.user)
     return render(request, "meus-pedidos.html", {"meus_pedidos": meus_pedidos})
 
 
@@ -180,8 +183,8 @@ def todos_pedidos(request):
     if request.user.is_superuser:
         todos_pedidos = Pedido.objects.all()
     else:
-        todos_pedidos = Pedido.objects.filter(user=request.user)
-        # return redirect("menu")
+        # todos_pedidos = Pedido.objects.filter(user=request.user)
+        return redirect("menu")
     return render(request, "gerencia-pedidos.html", {"todos_pedidos": todos_pedidos})
 
 

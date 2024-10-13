@@ -2,7 +2,7 @@ from django.contrib import admin
 from myapp import models
 
 # Registre seus modelos aqui
-admin.site.register(models.Embalagem)
+admin.site.register(models.Base)
 admin.site.register(models.TipoSabor)
 admin.site.register(models.Sabor)
 admin.site.register(models.Cobertura)
@@ -37,6 +37,7 @@ class MontaPoteInline(admin.TabularInline):
 
 class PedidoInline(admin.StackedInline):
     model = models.Pedido
+    readonly_fields = ("user",)
     extra = 0
 
 
