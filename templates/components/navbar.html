@@ -1,34 +1,54 @@
 {% load static %}
-<div class="d-flex flex-column flex-md-row align-items-center justify-content-between pb-3 mb-4">
-    <a href="{% url 'index' %}" class="link-dark text-decoration-none text-center">
-        <img src="https://via.placeholder.com/200" alt="" width="100">
-        <h2>Conto Gelado</h2>
-    </a>
+<div class="d-flex justify-content-between">
+    <div class="row text-center">
+        <a class="col link-dark text-dark text-decoration-none" href="{% url 'index' %}">
+            <img src="https://via.placeholder.com/200" alt="" width="100">
+            <h2>Conto Gelado</h2>
+        </a>
+    </div>
+    <div class="row-column align-content-center">
+        <nav class="py-2">
+            <div class="container d-flex gap-2 flex-wrap justify-content-evenly">
+                <a class="btn btn-primary btn-sm align-content-center my-2" href="{% url 'index' %}">Home</a>
+                <a class="btn btn-primary btn-sm align-content-center my-2" href="#">Contato</a>
+                <a class="btn btn-primary btn-sm align-content-center my-2" href="{% url 'menu' %}">Menu</a>
+                {% if request.user.is_authenticated %}
 
-    <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-
-        <a class="me-3 py-2 link-dark text-decoration-none" href="{% url 'index' %}">Home</a>
-        <a class="me-3 py-2 link-dark text-decoration-none" href="#">Contato</a>
-        <a class="me-3 py-2 link-dark text-decoration-none" href="{% url 'menu' %}">Menu</a>
-
-        {% if request.user.is_authenticated %}
-        <a class="me-3 py-2 link-dark text-decoration-none" href="#">Meus Pedidos</a>
-        <a class="me-3 py-2 text-bold link-dark" href="#">
-            {{request.user.first_name}} {{request.user.last_name}}</a>
-
-        <!-- Carrinho -->
-        <button class="btn btn-transparent position-relative" type="button" data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-            <i class="fas fa-shopping-cart fa-2x"></i>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                {{ total_itens }}
-            </span>
-        </button>
-
-        {% include 'sacola.html' %}
-
-        {% else %}
-        <a class="py-2 btn btn-dark" href="/admin/login">Login</a>
-        {% endif %}
-    </nav>
+                {% include 'sacola.html' %}
+                <!-- Meus Pedidos -->
+                <a class="btn btn-primary btn-sm align-content-center my-2" href="{% url 'meus_pedidos' %}">Pedidos</a>
+                <!-- <div class="link-dark dropdown align-content-center">
+                        <a class="nav-link link-dark dropdown-toggle {% if request.path == '/meus-pedidos/' %}active{% endif %}"
+                            data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                            <i class="fas fa-user"></i> {{request.user.first_name}} {{request.user.last_name}}</a>
+                        <ul class="dropdown-menu show p-0 mt-2">
+                            <li class="pt-1"><a href="{% url 'meus_pedidos' %}"
+                                    class="dropdown-item rounded-2 {% if request.path == '/meus-pedidos/' %}active{% endif %}">Meus
+                                    Pedidos</a></li>
+                            <li>
+                                <hr class="dropdown-divider my-1">
+                            </li>
+                            <li class="pb-1"><a class="dropdown-item rounded-2" href="/admin/logout">Sair</a></li>
+                        </ul>
+                    </div> -->
+                <!-- Carrinho -->
+                <div class="me-3">
+                    <button class="col-2 btn btn-transparent position-relative p-0 mt-2 me-2" type="button"
+                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                        <i class="fas fa-shopping-cart fa-2x"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ total_itens }}
+                        </span>
+                    </button>
+                </div>
+                <div>
+                    <h5 class="align-content-center m-0"><b>{{ request.user }}</b></h5>
+                </div>
+                <a class="btn btn-primary btn-sm align-content-center my-2" href="/admin/logout">Logout</a>
+                {% else %}
+                <a class="btn btn-primary btn-sm align-content-center my-2" href="/admin/login">Login</a>
+                {% endif %}
+            </div>
+        </nav>
+    </div>
 </div>

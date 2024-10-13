@@ -21,6 +21,7 @@ def index(request):
     return render(request, "index.html")
 
 
+# lista os produtos do menu
 def menu(request):
     embalagens = Embalagem.objects.filter(ativo=True)
     tipo_sabor = TipoSabor.objects.filter(ativo=True)
@@ -146,6 +147,7 @@ def remove_item_sacola(request):
         )
 
 
+# finaliza o pedido
 @login_required(login_url="/admin/login/")
 def checkout_pedido(request):
     pedido = Pedido.objects.filter(user=request.user, status=True).first()
@@ -162,3 +164,10 @@ def checkout_pedido(request):
         form = PedidoUpdateForm(instance=pedido)
 
     return render(request, "pedido.html", {"form": form, "pedido": pedido})
+
+
+# lista os pedidos do usuário
+@login_required(login_url="/admin/login/")
+def meus_pedidos(request):
+    meus_pedidos = Pedido.objects.filter(user=request.user)
+    return render(request, "meus-pedidos.html", {"meus_pedidos": meus_pedidos})

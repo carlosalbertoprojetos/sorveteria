@@ -12,4 +12,5 @@ urlpatterns = [
     ),
     path("remove_item_sacola/", views.remove_item_sacola, name="remove_item_sacola"),
     path("checkout-pedido/", views.checkout_pedido, name="checkout_pedido"),
+    path("meus-pedidos/", views.meus_pedidos, name="meus_pedidos"),
 ]
