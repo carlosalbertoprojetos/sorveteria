@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
+from django.utils.timezone  import now
 
 
 # py manage.py makemigrations && py manage.py migrate && py manage.py runserver
@@ -130,7 +131,7 @@ class Entregador(models.Model):
     telefone = models.CharField(max_length=14, null=True, blank=True)
     vaiculo = models.CharField(max_length=50, null=True, blank=True)
     placa = models.CharField(max_length=7, null=True, blank=True)
-    cadastro = models.DateField(default=datetime.today())
+    cadastro = models.DateField(default=now)
     ativo = models.BooleanField(default=True)
 
     class Meta:
@@ -142,7 +143,7 @@ class Entregador(models.Model):
 
 
 class Pedido(models.Model):
-    data_pedido = models.DateTimeField(default=datetime.now())
+    data_pedido = models.DateTimeField(default=now)
     user = models.ForeignKey(User, related_name="pedido_user", on_delete=models.PROTECT)
     pagamento = models.ForeignKey(FormaPagamento, on_delete=models.RESTRICT, null=True)
     pago = models.BooleanField(default=False)
@@ -168,9 +169,9 @@ class ItensCarrinho(models.Model):
     quantidade = models.PositiveIntegerField(default=1)
     preco = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
-    class Meta:
-        verbose_name = "3 - Itens do Carrinho"
-        verbose_name_plural = "3 - Itens do Carrinho"
+    # class Meta:
+    #     verbose_name = "3 - Itens do Carrinho"
+    #     verbose_name_plural = "3 - Itens do Carrinho"
 
     def preco_formatado(self):
         return f"R$ {self.preco:.2f}"

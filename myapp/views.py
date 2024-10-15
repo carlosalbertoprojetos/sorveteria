@@ -46,37 +46,53 @@ def menu(request):
 # Adicionar itens no carrinho
 @login_required(login_url="/admin/login/")
 def adicionar_carrinho(request):
-    if request.method == "POST":
-        produto_id = request.POST.get("produto_id")
-        produto = Produto.objects.get(id=produto_id)
+    # se request.user pertencer a algum grupo (nível de acesso)
+    if request.user.groups.exists():
+        cliente = request.GET.get("cliente_id")
+        print("sim", cliente)
+    else:
+        cliente = request.user
 
-        ultimo_pedido = Pedido.objects.filter(user=request.user, pago=False).first()
+    # if request.method == "POST":
+    #     produto_id = request.POST.get("produto_id")
+    #     produto = Produto.objects.get(id=produto_id)
+    #     ultimo_pedido = Pedido.objects.filter(
+    #         user=cliente, pago=False, entregue=False
+    #     ).last()
 
-        # Data de hoje
-        hoje = datetime.today().date()
+    #     # Data de hoje
+    #     # hoje = datetime.today().date()
+    #     hoje = datetime.now().date()
 
-        if ultimo_pedido != None:
-            # verifica se o pedido foi realizado hoje
-            ultimo_pedido_data = ultimo_pedido.data_pedido.date()
-            if (ultimo_pedido_data - timedelta(days=1)) == hoje:
-                # verifica se os campos 'pago' e 'entregue' foram selecionados, para definir se novos itens poderão ser incluídos no pedido com os demais itens existentes
-                if ultimo_pedido.pago == False and ultimo_pedido.entregue == False:
-                    # verifica se não existe este produto no pedido
-                    if not ItensCarrinho.objects.filter(
-                        pedido=ultimo_pedido.id, produto=produto
-                    ).exists():
-                        ItensCarrinho.objects.create(
-                            pedido=ultimo_pedido, produto=produto
-                        )
-                        # atualiza data/hora do pedido
-                        ultimo_pedido.data_pedido = datetime.now()
-                        ultimo_pedido.save()
-        else:
-            # cria um novo pedido e o item relacionado ao novo pedido
-            novo_pedido = Pedido.objects.create(
-                user=request.user,
-            )
-            ItensCarrinho.objects.create(pedido=novo_pedido, produto=produto)
+    #     if ultimo_pedido != None:
+    #         # verifica se o pedido foi realizado hoje
+    #         ultimo_pedido_data = ultimo_pedido.data_pedido.date()
+
+    #         if ultimo_pedido_data == hoje:
+    #             # verifica há itens neste pedido e se este item já foi selecionado para este pedido
+    #             if (
+    #                 ItensCarrinho.objects.filter(pedido=ultimo_pedido.id).exists()
+    #                 and not ItensCarrinho.objects.filter(
+    #                     pedido=ultimo_pedido.id, produto=produto
+    #                 ).exists()
+    #             ):
+    #                 ItensCarrinho.objects.create(pedido=ultimo_pedido, produto=produto)
+    #                 # atualiza data/hora do pedido
+    #                 ultimo_pedido.data_pedido = datetime.now()
+    #                 ultimo_pedido.save()
+
+    #         else:
+    #             # cria um novo pedido e o item relacionado ao novo pedido
+    #             novo_pedido = Pedido.objects.create(
+    #                 user=cliente,
+    #             )
+    #             ItensCarrinho.objects.create(pedido=novo_pedido, produto=produto)
+    #     else:
+    #         # cria um novo pedido e o item relacionado ao novo pedido
+    #         novo_pedido = Pedido.objects.create(
+    #             user=cliente,
+    #         )
+    #         ItensCarrinho.objects.create(pedido=novo_pedido, produto=produto)
 
     return redirect("/menu/")
 
