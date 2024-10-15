@@ -1,74 +1,75 @@
 from django.db import models
 from django.contrib.auth.models import User
-from unidecode import unidecode
+from datetime import datetime
 
 
-# Tipo de Pote (1L - 1/5L - 2L - 400mL - 800mL )
-class Base(models.Model):
-    tipo = models.CharField(max_length=50)
-    capacidade_maxima_bolas = models.PositiveIntegerField(default=1)
-    ativo = models.BooleanField()
-    preco = models.DecimalField(max_digits=10, decimal_places=2)
+# py manage.py makemigrations && py manage.py migrate && py manage.py runserver
 
-    def preco_formatado(self):
-        return f"R$ {self.preco:.2f}"
 
-    def __str__(self):
-        nome_tratado = unidecode(self.tipo).lower().replace(" ", "")
-
-        if "picole" in nome_tratado:
-            retorno = f"{self.tipo}"
-        else:
-            retorno = f"{self.tipo} | PREÇO: R$ {self.preco:.2f}"
-        return retorno
+# Picolé, Açaí, Sorvete, Chocolate, Biscoito
+class TipoMercadoria(models.Model):
+    nome = models.CharField(max_length=50, unique=True)
+    ativo = models.BooleanField(default=True)
 
     class Meta:
-        verbose_name = "1 - Base"
-        verbose_name_plural = "1 - Base"
-
-
-class TipoSabor(models.Model):
-    tipo = models.CharField(max_length=100)
-    ativo = models.BooleanField()
-    preco = models.DecimalField(max_digits=10, decimal_places=2)
-
-    def preco_formatado(self):
-        return f"R$ {self.preco:.2f}"
+        verbose_name = "Adm - Tipo de Mercadoria"
+        verbose_name_plural = "Adm - Tipo de Mercadoria"
 
     def __str__(self):
-        return f"{self.tipo} | PREÇO: R$ {self.preco:.2f}"
+        return self.nome
+
+
+# Unidade, litro, quilo, m³, etc
+class UnidadeMedida(models.Model):
+    um = models.CharField(max_length=50, unique=True)
 
     class Meta:
-        verbose_name = "2 - TipoSabor"
-        verbose_name_plural = "2 - TipoSabor"
+        verbose_name = "Adm - Unidade de Medida"
+        verbose_name_plural = "Adm - Unidade de Medida"
+
+    def __str__(self):
+        return self.um
 
 
+# Tipo de embalagem para o produto (1L - 1/5L - 2L - 400mL - 800mL )
+class Embalagem(models.Model):
+    nome = models.CharField(max_length=50, unique=True)
+    ativo = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "Adm - Embalagem"
+        verbose_name_plural = "Adm - Embalagem"
+
+    def __str__(self):
+        return self.nome
+
+
+# morango, chocolate, diamante negro, laka, etc
 class Sabor(models.Model):
-    nome = models.CharField(max_length=50)
-    tipo = models.ForeignKey(
-        TipoSabor, related_name="tipo_sabor", on_delete=models.CASCADE
-    )
-    ativo = models.BooleanField()
-
-    def __str__(self):
-        nome_tratado = unidecode(self.tipo.tipo).lower().replace(" ", "")
-        if "picole" in nome_tratado:
-            retorno = f"{self.nome} - {self.tipo}"
-        else:
-            retorno = (
-                f"{self.nome} - {self.tipo.tipo} | PREÇO: R$ {self.tipo.preco:.2f}"
-            )
-        return retorno
+    nome = models.CharField(max_length=100, unique=True)
+    ativo = models.BooleanField(default=True)
+    # preco = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:
-        verbose_name = "3 - Sabor"
-        verbose_name_plural = "3 - Sabor"
+        verbose_name = "Adm - Sabor"
+        verbose_name_plural = "Adm - Sabor"
+
+    # def preco_formatado(self):
+    #     return f"R$ {self.preco:.2f}"
+
+    def __str__(self):
+        return f"{self.nome}"
 
 
+# caramelo, chocolate, morango, ninho, etc
 class Cobertura(models.Model):
-    nome = models.CharField(max_length=50)
-    ativo = models.BooleanField()
+    nome = models.CharField(max_length=50, unique=True)
+    ativo = models.BooleanField(default=True)
     preco = models.DecimalField(max_digits=10, decimal_places=2)
+
+    class Meta:
+        verbose_name = "Adm - Cobertura"
+        verbose_name_plural = "Adm - Cobertura"
 
     def preco_formatado(self):
         return f"R$ {self.preco:.2f}"
@@ -76,148 +77,110 @@ class Cobertura(models.Model):
     def __str__(self):
         return f"{self.nome} | PREÇO: R$ {self.preco:.2f}"
 
-    class Meta:
-        verbose_name = "4 - Cobertura"
-        verbose_name_plural = "4 - Cobertura"
 
-
-class MontaPote(models.Model):
-    base = models.ForeignKey(
-        Base, related_name="base", on_delete=models.CASCADE, null=True
-    )
-    # coberturas = models.ManyToManyField(Cobertura)
-    quantidade = models.PositiveIntegerField(null=True)
-
-    def preco_total(self):
-        preco_base = self.base.preco if self.base else 0
-        preco_sabores = 0
-        preco_coberturas = 0
-
-        # sabores
-        for selsabor in self.pote.all():
-            preco_sabor = selsabor.sabor.tipo.preco
-            quantidade_bolas = selsabor.quantidade_bolas
-            preco_sabores += preco_sabor * quantidade_bolas
-
-        # coberturas
-        for selcobertura in self.pote_cobertura.all():
-            preco_cobertura = selcobertura.cobertura.preco
-            quantidade_cobertura = selcobertura.quantidade_cobertura
-            preco_coberturas += preco_cobertura * quantidade_cobertura
-
-        total_pote = preco_base + preco_coberturas + preco_sabores
-        total = total_pote * self.quantidade
-        return total
-
-    def obter_descricao_sabores(self):
-        descricao_sabores = []
-        for sel_sabor in self.pote.all():
-            quantidade_sabor = sel_sabor.quantidade_bolas
-            descricao_sabor = f"{quantidade_sabor}x {sel_sabor.sabor.nome}"
-            descricao_sabores.append(descricao_sabor)
-        return ";".join(descricao_sabores)
-
-    def obter_descricao_coberturas(self):
-        descricao_coberturas = []
-        for sel_cobertura in self.pote_cobertura.all():
-            quantidade_cobertura = sel_cobertura.quantidade_cobertura
-            descricao_cobertura = (
-                f"{quantidade_cobertura}x {sel_cobertura.cobertura.nome}"
-            )
-            descricao_coberturas.append(descricao_cobertura)
-        return ";".join(descricao_coberturas)
-
-    def __str__(self):
-        return f"ID: {self.id} / POTE: {self.base} / Qtd: {self.quantidade} / R$ {self.preco_total()}"
+# base para a criação do produto
+# exemplo: Picolé, unidade, palito ou Sorvete, litro, pote 3Litros ou Açaí, litro, pote 400ml
+class Base(models.Model):
+    tipo = models.ForeignKey(TipoMercadoria, on_delete=models.CASCADE)
+    um = models.ForeignKey(UnidadeMedida, on_delete=models.RESTRICT)
+    embalagem = models.ForeignKey(Embalagem, on_delete=models.RESTRICT)
+    ativo = models.BooleanField(default=True)
 
     class Meta:
-        verbose_name = "A - MontaPote"
-        verbose_name_plural = "A - MontaPote"
-
-
-class SelSabor(models.Model):
-    pote = models.ForeignKey(
-        MontaPote, related_name="pote", on_delete=models.CASCADE, null=True
-    )
-    sabor = models.ForeignKey(
-        Sabor, related_name="sabor", on_delete=models.CASCADE, null=True
-    )
-    quantidade_bolas = models.PositiveIntegerField(default=1)
+        unique_together = (("tipo", "um", "embalagem"),)
+        verbose_name = "1 - Base"
+        verbose_name_plural = "1 - Base"
 
     def __str__(self):
-        return f"Sabor: {self.sabor.nome}, Quantidade de Bolas: {self.quantidade_bolas}"
+        return f"{self.tipo} {self.embalagem}"
+
+
+class Produto(models.Model):
+    base = models.ForeignKey(Base, on_delete=models.RESTRICT)
+    sabor = models.ForeignKey(Sabor, on_delete=models.RESTRICT)
+    preco = models.DecimalField(max_digits=10, decimal_places=2)
+    imagem = models.ImageField(upload_to="media")
+    ativo = models.BooleanField(default=True)
 
     class Meta:
-        verbose_name = "Selecinar Sabor"
-        verbose_name_plural = "Selecinar Sabor"
+        unique_together = (("base", "sabor", "preco"),)
+        verbose_name = "2 - Produto"
+        verbose_name_plural = "2 - Produto"
 
-
-class SelCobertura(models.Model):
-    pote = models.ForeignKey(
-        MontaPote, related_name="pote_cobertura", on_delete=models.CASCADE, null=True
-    )
-    cobertura = models.ForeignKey(
-        Cobertura, related_name="cobertura", on_delete=models.CASCADE, null=True
-    )
-    quantidade_cobertura = models.PositiveIntegerField()
+    def preco_formatado(self):
+        return f"R$ {self.preco:.2f}"
 
     def __str__(self):
-        return (
-            f"Cobertura: {self.cobertura.nome}, Quantidade: {self.quantidade_cobertura}"
-        )
-
-    # class Meta:
-    #     verbose_name = "B - SelCobertura"
-    #     verbose_name_plural = "B - SelCobertura"
+        return f"{self.base} {self.sabor} {self.preco_formatado()}"
 
 
-class SacolaItens(models.Model):
-    potes = models.ManyToManyField(MontaPote)
+class FormaPagamento(models.Model):
+    nome = models.CharField(max_length=10, unique=True)
+
+    class Meta:
+        verbose_name = "Adm - Formas de Pagamento"
+        verbose_name_plural = "Adm - Formas de Pagamento"
+
+    def __str__(self):
+        return self.nome
+
+
+class Entregador(models.Model):
+    nome = models.CharField(max_length=10)
+    telefone = models.CharField(max_length=14, null=True, blank=True)
+    vaiculo = models.CharField(max_length=50, null=True, blank=True)
+    placa = models.CharField(max_length=7, null=True, blank=True)
+    cadastro = models.DateField(default=datetime.today())
+    ativo = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "Adm - Entregador"
+        verbose_name_plural = "Adm - Entregador"
+
+    def __str__(self):
+        return self.nome
+
+
+class Pedido(models.Model):
+    data_pedido = models.DateTimeField(default=datetime.now())
+    user = models.ForeignKey(User, related_name="pedido_user", on_delete=models.PROTECT)
+    pagamento = models.ForeignKey(FormaPagamento, on_delete=models.RESTRICT, null=True)
+    pago = models.BooleanField(default=False)
+    entregue = models.BooleanField(default=False)
+    total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    entregador = models.ForeignKey(
+        Entregador, on_delete=models.RESTRICT, null=True, blank=True
+    )
+
+    def __str__(self):
+        return f"PEDIDO: {self.id} _/  USUÁRIO: {self.user} _/  VALOR: {self.total} _/ PAGO: {self.pago} _/  DATA: {self.data_pedido.strftime('%d/%m/%y %H:%M')} _/ ENTREGADOR: {self.entregador}"
+
+    class Meta:
+        verbose_name = "3 - Pedido"
+        verbose_name_plural = "3 - Pedido"
+
+
+class ItensCarrinho(models.Model):
+    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
+    produto = models.ForeignKey(
+        Produto, related_name="produto", on_delete=models.CASCADE
+    )
+    quantidade = models.PositiveIntegerField(default=1)
     preco = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+
+    class Meta:
+        verbose_name = "3 - Itens do Carrinho"
+        verbose_name_plural = "3 - Itens do Carrinho"
 
     def preco_formatado(self):
         return f"R$ {self.preco:.2f}"
 
     # calcula a soma dos preços de todos os produtos da sacola
     def preco_total(self):
-        sacola_total = 0
-        for pote in self.potes.all():
-            sacola_total += pote.preco_total()
-        self.preco = sacola_total
+        total = self.produto.preco * self.quantidade
+        self.preco = total
         self.save()
-        return sacola_total
+        return total
 
     def __str__(self):
-        return f"CARINHO: {self.id} / R$ {self.preco_total()}"
-
-    class Meta:
-        verbose_name = "B - Itens da Sacola"
-        verbose_name_plural = "B - Itens da Sacola"
-
-
-class Pedido(models.Model):
-    data_pedido = models.DateTimeField(auto_now_add=True, null=True)
-    user = models.ForeignKey(User, related_name="pedido_user", on_delete=models.PROTECT)
-    itens_da_sacola = models.OneToOneField(
-        SacolaItens, on_delete=models.CASCADE, null=True
-    )
-    status = models.BooleanField(default=False)
-    pago = models.BooleanField(default=False)
-    entrega = models.BooleanField(default=False)
-    endereco = models.TextField(null=True)
-
-    class Pagamento(models.TextChoices):
-        CARTAO = "CARTAO", "Cartão"
-        PIX = "PIX", "Pix"
-        DINHEIRO = "DINHEIRO", "Dinheiro"
-        BOLETO = "BOLETO", "Boleto"
-        CHEQUE = "CHEQUE", "Cheque"
-
-    pagamento = models.CharField(max_length=100, choices=Pagamento.choices, null=True)
-
-    def __str__(self):
-        return f"Pedido: {self.id} / {self.user} / (PAGO: {self.pago})"
-
-    class Meta:
-        verbose_name = "Pedido"
-        verbose_name_plural = "Pedido"
+        return f"CARINHO: {self.quantidade} - {self.produto} / R$ {self.preco_total()}"

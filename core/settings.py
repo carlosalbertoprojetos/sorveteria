@@ -118,8 +118,8 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 # Apps
-                "core.context_processors.context_social",
-                "core.context_processors.context_sacola",
+                # "core.context_processors.context_social",
+                # "core.context_processors.context_sacola",
             ],
         },
     },
@@ -178,7 +178,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
 LANGUAGE_CODE = "pt-br"
-TIME_ZONE = "America/Sao_Paulo"
+TIME_ZONE = "UTC"
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
